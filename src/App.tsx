@@ -1,8 +1,10 @@
+import MainLayout from "./Layout/MainLayout";
+
 function App() {
   return (
     <>
       <div>
-        <h1>e-Book Desk</h1>
+        <MainLayout></MainLayout>
       </div>
     </>
   );
