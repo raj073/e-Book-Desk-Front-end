@@ -59,13 +59,13 @@ export default function Navbar() {
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
               <li className="text-white hover:text-indigo-200 text-lg">
-                <a href="javascript:void(0)">Home</a>
+                <Link to={`/`}>Home</Link>
               </li>
               <li className="text-white hover:text-indigo-200 text-lg">
-                <a href="javascript:void(0)">All Books</a>
+                <Link to={`/`}>All Books</Link>
               </li>
               <li className="text-white hover:text-indigo-200 text-lg">
-                <a href="javascript:void(0)">Add New</a>
+                <Link to={`/addnewbook`}>Add New</Link>
               </li>
               <li className="text-white hover:text-indigo-200 text-lg">
                 <a href="javascript:void(0)">Contact US</a>
