@@ -1,10 +1,58 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import { FormEvent, useRef } from "react";
+import { usePostBookMutation } from "../../Redux/Features/Books/bookApi";
+import toast from "react-hot-toast";
+
 export default function AddNewBook() {
+  const [postBook, { isLoading, isError, isSuccess }] = usePostBookMutation();
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  console.log(isLoading);
+  console.log(isError);
+  console.log(isSuccess);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target as HTMLFormElement);
+
+    const bookData = {
+      title: formData.get("title"),
+      description: formData.get("description"),
+      genre: formData.get("genre"),
+      author: formData.get("author"),
+      photoUrl: formData.get("photoUrl"),
+      date: formData.get("date"),
+    };
+
+    console.log(bookData);
+
+    try {
+      postBook({ data: bookData });
+      toast.success(`Book is Inserted Successfully!`, {
+        position: "top-right",
+      });
+
+      if (formRef.current) {
+        formRef.current.reset();
+      }
+    } catch (error) {
+      toast.error("An error occurred while Inserting Data.", {
+        position: "top-right",
+      });
+    }
+  };
+
   return (
     <div className="flex items-center mt-5">
       <form
+        onSubmit={handleSubmit}
         method="POST"
-        id="checkout"
         className="lg:w-1/2 w-full mx-auto bg-white rounded shadow-xl relative py-4"
+        ref={formRef}
       >
         <div className="text-gray-900 font-medium text-xs text-center flex flex-col items-center justify-center">
           <img
