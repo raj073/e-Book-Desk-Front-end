@@ -4,6 +4,7 @@
 import { FormEvent, useRef } from "react";
 import { usePostBookMutation } from "../../Redux/Features/Books/bookApi";
 import toast from "react-hot-toast";
+import logo from "../../assets/logo.png";
 
 export default function AddNewBook() {
   const [postBook, { isLoading, isError, isSuccess }] = usePostBookMutation();
@@ -57,7 +58,7 @@ export default function AddNewBook() {
         <div className="text-gray-900 font-medium text-xs text-center flex flex-col items-center justify-center">
           <img
             className="h-20 w-20 rounded-full shadow-xl border-4 border-gray-400"
-            src="https://images.unsplash.com/photo-1523199455310-87b16c0eed11?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+            src={logo}
             alt="logo"
           />
           <p className="mx-2 my-3 text-lg">Add a New Book Catalouge</p>
@@ -70,14 +71,9 @@ export default function AddNewBook() {
               </span>
               <div className="flex">
                 <img
-                  className="h-10 w-10 object-contain mr-2"
-                  src="https://upload.wikimedia.org/wikipedia/commons/1/16/Former_Visa_%28company%29_logo.svg"
-                  alt="Visa"
-                />
-                <img
-                  className="h-10 w-10 object-contain mr-2"
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png"
-                  alt="Master card"
+                  className="h-16 w-16 object-contain mr-2"
+                  src={logo}
+                  alt="image"
                 />
               </div>
             </div>
