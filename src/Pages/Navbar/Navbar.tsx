@@ -65,7 +65,7 @@ export default function Navbar() {
                 <Link to={`/`}>All Books</Link>
               </li>
               <li className="text-white hover:text-indigo-200 text-lg">
-                <Link to={`/addnewbook`}>Add New</Link>
+                <Link to={`/addnewbook`}>Add New Book</Link>
               </li>
               <li className="text-white hover:text-indigo-200 text-lg">
                 <a href="javascript:void(0)">Contact US</a>

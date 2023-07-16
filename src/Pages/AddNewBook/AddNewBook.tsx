@@ -26,7 +26,7 @@ export default function AddNewBook() {
       genre: formData.get("genre"),
       author: formData.get("author"),
       photoUrl: formData.get("photoUrl"),
-      date: formData.get("date"),
+      publicationDate: formData.get("publicationDate"),
     };
 
     console.log(bookData);
@@ -163,8 +163,8 @@ export default function AddNewBook() {
                     className="appearance-none block text-base w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
                     required
                     type="date"
-                    name="date"
-                    id="date"
+                    name="publicationDate"
+                    id="publicationDate"
                   />
                 </div>
               </div>
