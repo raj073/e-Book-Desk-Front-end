@@ -1,13 +1,14 @@
 import { IBook } from "../Types/globalTypes";
 import "./Book.css";
 import { AiOutlineDoubleRight } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 interface IProps {
   book: IBook;
 }
 
 export default function Book({ book }: IProps) {
-  const { title, genre, publicationDate, author, photoUrl } = book;
+  const { _id, title, genre, publicationDate, author, photoUrl } = book;
   return (
     <div className="flex justify-center items-center bg-blue-lightest shadow-2xl hover:-translate-y-4 transition duration-700">
       <div
@@ -37,10 +38,12 @@ export default function Book({ book }: IProps) {
               <div className="px-2 text-xs"></div>
             </div>
           </div>
-          <div className="bg-blue-100 p-3 text-base font-semibold cursor-pointer flex items-center justify-between transition hover:bg-blue-400 hover:text-white">
-            Book Details
-            <AiOutlineDoubleRight></AiOutlineDoubleRight>
-          </div>
+          <Link to={`/book-details/${_id}`}>
+            <div className="bg-blue-100 p-3 text-base font-semibold cursor-pointer flex items-center justify-between transition hover:bg-blue-400 hover:text-white">
+              Book Details
+              <AiOutlineDoubleRight></AiOutlineDoubleRight>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
