@@ -6,6 +6,7 @@ export interface IBook {
   author: string;
   photoUrl: string;
   publicationDate: Date;
+  reviews: string;
 }
 
 export interface bookCardProps {
