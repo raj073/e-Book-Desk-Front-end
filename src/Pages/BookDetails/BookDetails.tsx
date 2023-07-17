@@ -8,7 +8,6 @@ import "./BookDetails.css";
 
 export default function BookDetails() {
   const { id } = useParams();
-  console.log(id);
 
   const { data: bookDetails, isLoading, error } = useGetSingleBookQuery(id);
 
