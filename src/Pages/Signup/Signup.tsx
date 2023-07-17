@@ -1,6 +1,39 @@
-import { Link } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useAppDispatch } from "../../Redux/Hooks";
+import { createUser } from "../../Redux/Features/User/userSlice";
+import { useRef } from "react";
 
-export default function Signup() {
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
+
+interface SignUpFormInputs {
+  email: string;
+  password: string;
+}
+
+export default function Signup({ className, ...props }: UserAuthFormProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpFormInputs>();
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSignUp = (data: SignUpFormInputs) => {
+    console.log(data);
+    dispatch(createUser({ email: data.email, password: data.password }));
+    navigate("/login");
+    if (formRef.current) {
+      formRef.current.reset();
+    }
+  };
+
   return (
     <div className="font-primary">
       <div className="p-8 lg:w-1/2 mx-auto shadow-2xl">
@@ -62,53 +95,7 @@ export default function Signup() {
             Sign up with Credentials{" "}
           </p>
           <div className="mt-2 border-b border-neutral-400"></div>
-          <form className="mt-4">
-            <label htmlFor="name" className="text-base font-medium px-1">
-              Name
-            </label>
-            <div className="relative mt-2 mb-2">
-              <input
-                className="appearance-none border pl-12 border-gray-100 shadow-sm focus:shadow-md focus:placeholder-gray-600  transition  rounded-md w-full py-3 text-gray-600 leading-tight focus:outline-none focus:ring-gray-600 focus:shadow-outline"
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Name"
-                required
-              />
-              <div className="absolute left-0 inset-y-0 flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7 ml-3 text-gray-400 p-1"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
-                </svg>
-              </div>
-            </div>
-            <label htmlFor="photoURL" className="text-base font-medium px-1">
-              Photo URL
-            </label>
-            <div className="relative mt-2 mb-2">
-              <input
-                className="appearance-none border pl-12 border-gray-100 shadow-sm focus:shadow-md focus:placeholder-gray-600  transition  rounded-md w-full py-3 text-gray-600 leading-tight focus:outline-none focus:ring-gray-600 focus:shadow-outline"
-                id="photoURL"
-                name="photoURL"
-                type="text"
-                placeholder="Photo URL"
-              />
-              <div className="absolute left-0 inset-y-0 flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  className="h-6 w-6 ml-3 text-gray-400 p-1"
-                  fill="currentColor"
-                >
-                  <path d="M19,0H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H19a5.006,5.006,0,0,0,5-5V5A5.006,5.006,0,0,0,19,0ZM5,2H19a3,3,0,0,1,3,3V19a2.951,2.951,0,0,1-.3,1.285l-9.163-9.163a5,5,0,0,0-7.072,0L2,14.586V5A3,3,0,0,1,5,2ZM5,22a3,3,0,0,1-3-3V17.414l4.878-4.878a3,3,0,0,1,4.244,0L20.285,21.7A2.951,2.951,0,0,1,19,22Z" />
-                  <path d="M16,10.5A3.5,3.5,0,1,0,12.5,7,3.5,3.5,0,0,0,16,10.5Zm0-5A1.5,1.5,0,1,1,14.5,7,1.5,1.5,0,0,1,16,5.5Z" />
-                </svg>
-              </div>
-            </div>
+          <form onSubmit={handleSubmit(handleSignUp)} className="mt-4">
             <label htmlFor="email" className="text-base font-medium px-1">
               Email
             </label>
@@ -116,11 +103,15 @@ export default function Signup() {
               <input
                 className="appearance-none border pl-12 border-gray-100 shadow-sm focus:shadow-md focus:placeholder-gray-600  transition  rounded-md w-full py-3 text-gray-600 leading-tight focus:outline-none focus:ring-gray-600 focus:shadow-outline"
                 id="email"
-                name="email"
                 type="text"
                 placeholder="Email"
                 required
+                autoCapitalize="none"
+                autoComplete="email"
+                autoCorrect="off"
+                {...register("email", { required: "Email is required" })}
               />
+              {errors.email && <p>{errors.email.message}</p>}
               <div className="absolute left-0 inset-y-0 flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -140,11 +131,13 @@ export default function Signup() {
               <input
                 className="appearance-none border pl-12 border-gray-100 shadow-sm focus:shadow-md focus:placeholder-gray-600  transition  rounded-md w-full py-3 text-gray-600 leading-tight focus:outline-none focus:ring-gray-600 focus:shadow-outline"
                 id="password"
-                name="password"
                 type="password"
                 placeholder="Password"
-                required
+                autoCapitalize="none"
+                autoCorrect="off"
+                {...register("password", { required: "Password is required" })}
               />
+              {errors.password && <p>{errors.password.message}</p>}
               <div className="absolute left-0 inset-y-0 flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +160,7 @@ export default function Signup() {
             <div className="mt-5 border-b border-black"></div>
             <div className="mt-3 text-sm flex justify-around items-center text-[#002D74]">
               <p className="font-semibold">Already have an account?</p>
-              <Link to={"/signin"}>
+              <Link to={"/login"}>
                 <button className="py-2 px-5 bg-white border rounded-bl-lg rounded-tr-lg font-semibold hover:scale-110 duration-300">
                   Please Login
                 </button>
