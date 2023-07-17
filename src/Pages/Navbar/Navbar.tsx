@@ -1,9 +1,29 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { signOut } from "firebase/auth";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { auth } from "../../Lib/firebase";
+import { setUser } from "../../Redux/Features/User/userSlice";
+import { useAppDispatch, useAppSelector } from "../../Redux/Hooks";
 
 export default function Navbar() {
   const [navbar, setNavbar] = useState(false);
+
+  const { user } = useAppSelector((state) => state.user);
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    console.log("Logout");
+    signOut(auth).then(() => {
+      dispatch(setUser(null));
+      navigate("/login");
+    });
+  };
+
   return (
     <nav className="w-full bg-black shadow">
       <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
@@ -89,18 +109,34 @@ export default function Navbar() {
           </div>
         </div>
         <div className="hidden space-x-2 md:inline-block">
-          <Link
-            to={`/login`}
-            className="px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
-          >
-            Sign in
-          </Link>
-          <Link
-            to={`/signup`}
-            className="px-4 py-2 text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
-          >
-            Sign up
-          </Link>
+          {user?.email ? (
+            <>
+              <div>
+                <span className="text-white">{user?.email}</span>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-white bg-orange-600 rounded-md shadow hover:bg-gray-800 ml-4 font-semibold"
+                >
+                  Signout
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Link
+                to={`/login`}
+                className="px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
+              >
+                Sign in
+              </Link>
+              <Link
+                to={`/signup`}
+                className="px-4 py-2 text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
+              >
+                Sign up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

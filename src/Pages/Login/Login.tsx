@@ -1,6 +1,45 @@
-import { Link } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../../Redux/Features/User/userSlice";
+import { useAppDispatch, useAppSelector } from "../../Redux/Hooks";
 
-export default function Login() {
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
+
+interface LoginFormInputs {
+  email: string;
+  password: string;
+}
+
+export default function Login({ className, ...props }: UserAuthFormProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>();
+
+  const { user, isLoading } = useAppSelector((state) => state.user);
+
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  const handleSignIn = (data: LoginFormInputs) => {
+    console.log(data);
+    dispatch(loginUser({ email: data.email, password: data.password }));
+  };
+
+  useEffect(() => {
+    if (user.email && !isLoading) {
+      navigate("/");
+    }
+  }, [user.email, isLoading, navigate]);
+
   return (
     <section className="flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-16 items-center mx-5 md:mx-0 font-primary">
       <div className="md:w-1/3 max-w-sm hidden md:block">
@@ -67,28 +106,32 @@ export default function Login() {
             OR
           </p>
         </div>
-        <form>
+        <form onSubmit={handleSubmit(handleSignIn)}>
           <label htmlFor="email" className="text-base font-medium px-1">
             Email
           </label>
           <input
             className="text-sm w-full my-2 px-4 py-2 border border-solid border-gray-300 rounded"
             type="email"
-            name="email"
             placeholder="Email"
-            required
+            autoCapitalize="none"
+            autoComplete="email"
+            autoCorrect="off"
+            {...register("email", { required: "Email is required" })}
           />
+          {errors.email && <p>{errors.email.message}</p>}
           <label htmlFor="password" className="text-base font-medium px-1">
             Password
           </label>
           <input
             className="text-sm w-full mt-2 px-4 py-2 border border-solid border-gray-300 rounded"
             type="password"
-            name="password"
             placeholder="Password"
-            required
+            autoCapitalize="none"
+            autoComplete="password"
+            {...register("password", { required: "Password is required" })}
           />
-
+          {errors.password && <p>{errors.password.message}</p>}
           <div className="text-center md:text-left">
             <button
               className="w-full font-semibold mt-4 bg-blue-600 hover:bg-purple-600 px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
