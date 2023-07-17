@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { api } from "../../Api/apiSlice";
@@ -17,7 +18,7 @@ const bookApi = api.injectEndpoints({
     }),
 
     getSingleBook: builder.query({
-      query: (id: string) => ({ url: `/book/${id}` }),
+      query: (id: string | undefined) => ({ url: `/book/${id}` }),
     }),
   }),
 });
