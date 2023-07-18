@@ -61,14 +61,17 @@ export default function EditBook() {
     try {
       if (bookData?.createdBy === user.email) {
         updateBook(options);
+        toast.success(`Book is Updated Successfully!`, {
+          position: "top-right",
+        });
         navigate("/");
       } else {
-        toast.error(`You are not Authorized to Update this book`, {
+        toast.error(`You are not Authorized to Update this Book`, {
           position: "top-right",
         });
       }
     } catch (error) {
-      toast.error("An error occurred while Updating Book.", {
+      toast.error("An Error Occurred While Deleting Book.", {
         position: "top-right",
       });
     }

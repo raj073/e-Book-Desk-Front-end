@@ -1,10 +1,16 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Link, useParams } from "react-router-dom";
-import { useGetSingleBookQuery } from "../../Redux/Features/Books/bookApi";
+
+import toast from "react-hot-toast";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  useDeleteBookMutation,
+  useGetSingleBookQuery,
+} from "../../Redux/Features/Books/bookApi";
 import { useAppSelector } from "../../Redux/Hooks";
 import "./BookDetails.css";
 
@@ -12,6 +18,10 @@ export default function BookDetails() {
   const { id } = useParams();
 
   const { data: bookDetails, isLoading, error } = useGetSingleBookQuery(id);
+
+  const [deleteBook] = useDeleteBookMutation();
+
+  const navigate = useNavigate();
 
   const { user } = useAppSelector((state) => state.user);
 
@@ -22,6 +32,37 @@ export default function BookDetails() {
   if (error) {
     return <div>Error fetching books.</div>;
   }
+
+  const handleDelete = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this book?"
+    );
+
+    const options = {
+      id: id,
+      data: bookDetails,
+    };
+
+    try {
+      if (confirmDelete && bookDetails?.createdBy === user.email) {
+        deleteBook(options);
+        toast.success(`Book is Deleted Successfully!`, {
+          position: "top-right",
+        });
+        navigate("/");
+      } else {
+        toast.error(`You are not Authorized to Delete this Book`, {
+          position: "top-right",
+        });
+      }
+    } catch (error) {
+      toast.error("An Error Occurred While Deleting Book.", {
+        position: "top-right",
+      });
+    }
+  };
 
   return (
     <div>
@@ -70,6 +111,7 @@ export default function BookDetails() {
                   </Link>
 
                   <button
+                    onClick={handleDelete}
                     type="button"
                     className="border border-red-400 text-black font-semibold rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-900 hover:text-white focus:outline-none focus:shadow-outline"
                   >
