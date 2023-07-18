@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetSingleBookQuery } from "../../Redux/Features/Books/bookApi";
 import "./BookDetails.css";
 
@@ -56,12 +57,14 @@ export default function BookDetails() {
                 </p>
 
                 <div className="text-base px-10 flex justify-end">
-                  <button
-                    type="button"
-                    className="border border-green-400 text-black font-semibold rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-900 hover:text-white focus:outline-none focus:shadow-outline"
-                  >
-                    EDIT
-                  </button>
+                  <Link to={`/edit-book/${bookDetails?._id}`}>
+                    <button
+                      type="button"
+                      className="border border-green-400 text-black font-semibold rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-900 hover:text-white focus:outline-none focus:shadow-outline"
+                    >
+                      EDIT
+                    </button>
+                  </Link>
 
                   <button
                     type="button"

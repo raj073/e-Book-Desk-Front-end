@@ -1,26 +1,46 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { FormEvent, useRef } from "react";
-import { usePostBookMutation } from "../../Redux/Features/Books/bookApi";
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { FormEvent } from "react";
 import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useGetSingleBookQuery,
+  useUpdateBookMutation,
+} from "../../Redux/Features/Books/bookApi";
 import logo from "../../assets/logo.png";
 
-export default function AddNewBook() {
-  const [postBook, { isLoading, isError, isSuccess }] = usePostBookMutation();
+export default function EditBook() {
+  const { id } = useParams();
 
-  const formRef = useRef<HTMLFormElement>(null);
+  const { data: bookData, error } = useGetSingleBookQuery(id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 1000,
+  });
 
-  console.log(isLoading);
+  const [updateBook, { isLoading, isError, isSuccess }] =
+    useUpdateBookMutation();
+
+  const navigate = useNavigate();
+
   console.log(isError);
   console.log(isSuccess);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error fetching books.</div>;
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
 
-    const bookData = {
+    const updatedBookData = {
       title: formData.get("title"),
       description: formData.get("description"),
       genre: formData.get("genre"),
@@ -30,19 +50,19 @@ export default function AddNewBook() {
       reviews: formData.get("reviews"),
     };
 
-    console.log(bookData);
+    const options = {
+      id: id,
+      data: updatedBookData,
+    };
 
     try {
-      postBook({ data: bookData });
-      toast.success(`Book is Inserted Successfully!`, {
+      updateBook(options);
+      toast.success(`Book is Updated Successfully!`, {
         position: "top-right",
       });
-
-      if (formRef.current) {
-        formRef.current.reset();
-      }
+      navigate("/");
     } catch (error) {
-      toast.error("An error occurred while Inserting Data.", {
+      toast.error("An error occurred while Updating Book.", {
         position: "top-right",
       });
     }
@@ -54,7 +74,6 @@ export default function AddNewBook() {
         onSubmit={handleSubmit}
         method="POST"
         className="lg:w-1/2 w-full mx-auto bg-white rounded shadow-xl relative py-4"
-        ref={formRef}
       >
         <div className="text-gray-900 font-medium text-xs text-center flex flex-col items-center justify-center">
           <img
@@ -62,7 +81,7 @@ export default function AddNewBook() {
             src={logo}
             alt="logo"
           />
-          <p className="mx-2 my-3 text-lg">Add a New Book Catalouge</p>
+          <p className="mx-2 my-3 text-lg">Edit a New Book Catalouge</p>
         </div>
         <div className="py-2 px-4 md:px-8">
           <div className="bg-gray-200 rounded p-2">
@@ -91,6 +110,7 @@ export default function AddNewBook() {
                   type="text"
                   name="title"
                   id="title"
+                  defaultValue={bookData?.title}
                 />
               </div>
             </div>
@@ -106,6 +126,7 @@ export default function AddNewBook() {
                     className="appearance-none block text-base w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg px-4 min-h-[70px] max-h-[200px]"
                     name="description"
                     id="description"
+                    defaultValue={bookData?.description}
                   />
                 </div>
                 <div className="mb-3 space-y-2 w-full text-xs ml-3">
@@ -119,6 +140,7 @@ export default function AddNewBook() {
                     type="text"
                     name="reviews"
                     id="reviews"
+                    defaultValue={bookData?.reviews}
                   />
                 </div>
               </div>
@@ -137,6 +159,7 @@ export default function AddNewBook() {
                     type="text"
                     name="author"
                     id="author"
+                    defaultValue={bookData?.author}
                   />
                 </div>
                 <div className="mb-3 space-y-2 w-full text-xs ml-3">
@@ -150,6 +173,7 @@ export default function AddNewBook() {
                     type="text"
                     name="genre"
                     id="genre"
+                    defaultValue={bookData?.genre}
                   />
                 </div>
               </div>
@@ -168,6 +192,7 @@ export default function AddNewBook() {
                     type="text"
                     name="photoUrl"
                     id="photoUrl"
+                    defaultValue={bookData?.photoUrl}
                   />
                 </div>
                 <div className="mb-3 space-y-2 w-full text-xs ml-3">
@@ -181,6 +206,7 @@ export default function AddNewBook() {
                     type="date"
                     name="publicationDate"
                     id="publicationDate"
+                    defaultValue={bookData?.publicationDate}
                   />
                 </div>
               </div>
@@ -190,10 +216,10 @@ export default function AddNewBook() {
             <div className="w-full">
               <button
                 className="h-auto lg:h-12 py-1 lg:py-2 px-2 lg-px-4 text-white text-base font-semibold tracking-wider bg-gray-900 
-                rounded-lg uppercase w-full focus:outline-none focus:shadow-outline"
+                rounded-lg uppercase w-full focus:outline-none focus:shadow-outline hover:bg-green-700"
                 type="submit"
               >
-                Add a Book
+                Update a Book
               </button>
             </div>
           </div>
