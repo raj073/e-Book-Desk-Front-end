@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
-import SearchInput from "../../Compponents/SearchInput/SearchInput";
+import SearchInput from "../../Components/SearchInput/SearchInput";
 import { useGetBookQuery } from "../../Redux/Features/Books/bookApi";
 import BookList from "../BookList/BookList";
 import { IBook } from "../Types/globalTypes";

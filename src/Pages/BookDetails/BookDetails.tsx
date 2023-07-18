@@ -5,12 +5,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Link, useParams } from "react-router-dom";
 import { useGetSingleBookQuery } from "../../Redux/Features/Books/bookApi";
+import { useAppSelector } from "../../Redux/Hooks";
 import "./BookDetails.css";
 
 export default function BookDetails() {
   const { id } = useParams();
 
   const { data: bookDetails, isLoading, error } = useGetSingleBookQuery(id);
+
+  const { user } = useAppSelector((state) => state.user);
 
   if (isLoading) {
     return <div>Loading...</div>;

@@ -5,9 +5,11 @@ import { FormEvent, useRef } from "react";
 import { usePostBookMutation } from "../../Redux/Features/Books/bookApi";
 import toast from "react-hot-toast";
 import logo from "../../assets/logo.png";
+import { useAppSelector } from "../../Redux/Hooks";
 
 export default function AddNewBook() {
   const [postBook, { isLoading, isError, isSuccess }] = usePostBookMutation();
+  const { user } = useAppSelector((state) => state.user);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -28,13 +30,14 @@ export default function AddNewBook() {
       photoUrl: formData.get("photoUrl"),
       publicationDate: formData.get("publicationDate"),
       reviews: formData.get("reviews"),
+      createdBy: user.email,
     };
 
     console.log(bookData);
 
     try {
       postBook({ data: bookData });
-      toast.success(`Book is Inserted Successfully!`, {
+      toast.success(`New Book is Inserted Successfully!`, {
         position: "top-right",
       });
 

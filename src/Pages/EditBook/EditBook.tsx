@@ -10,6 +10,7 @@ import {
   useUpdateBookMutation,
 } from "../../Redux/Features/Books/bookApi";
 import logo from "../../assets/logo.png";
+import { useAppSelector } from "../../Redux/Hooks";
 
 export default function EditBook() {
   const { id } = useParams();
@@ -18,6 +19,8 @@ export default function EditBook() {
     refetchOnMountOrArgChange: true,
     pollingInterval: 1000,
   });
+
+  const { user } = useAppSelector((state) => state.user);
 
   const [updateBook, { isLoading, isError, isSuccess }] =
     useUpdateBookMutation();
@@ -56,11 +59,14 @@ export default function EditBook() {
     };
 
     try {
-      updateBook(options);
-      toast.success(`Book is Updated Successfully!`, {
-        position: "top-right",
-      });
-      navigate("/");
+      if (bookData?.createdBy === user.email) {
+        updateBook(options);
+        navigate("/");
+      } else {
+        toast.error(`You are not Authorized to Update this book`, {
+          position: "top-right",
+        });
+      }
     } catch (error) {
       toast.error("An error occurred while Updating Book.", {
         position: "top-right",
