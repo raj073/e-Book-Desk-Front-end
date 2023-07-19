@@ -29,7 +29,6 @@ export default function AddNewBook() {
       author: formData.get("author"),
       photoUrl: formData.get("photoUrl"),
       publicationDate: formData.get("publicationDate"),
-      reviews: formData.get("reviews"),
       createdBy: user.email,
     };
 
@@ -37,7 +36,7 @@ export default function AddNewBook() {
 
     try {
       postBook({ data: bookData });
-      toast.success(`New Book is Inserted Successfully!`, {
+      toast.success(`New Book is Added Successfully!`, {
         position: "top-right",
       });
 
@@ -109,19 +108,6 @@ export default function AddNewBook() {
                     className="appearance-none block text-base w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg px-4 min-h-[70px] max-h-[200px]"
                     name="description"
                     id="description"
-                  />
-                </div>
-                <div className="mb-3 space-y-2 w-full text-xs ml-3">
-                  <label className="font-semibold text-base text-gray-600 py-2">
-                    Reviews
-                  </label>
-                  <input
-                    placeholder="Reviews"
-                    className="appearance-none block text-base w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
-                    required
-                    type="text"
-                    name="reviews"
-                    id="reviews"
                   />
                 </div>
               </div>

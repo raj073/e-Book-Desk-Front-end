@@ -7,11 +7,13 @@
 
 import toast from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import ReviewDisplay from "../../Components/ReviewDisplay/ReviewDisplay";
 import {
   useDeleteBookMutation,
   useGetSingleBookQuery,
 } from "../../Redux/Features/Books/bookApi";
 import { useAppSelector } from "../../Redux/Hooks";
+import AddReview from "../AddReview/AddReview";
 import "./BookDetails.css";
 
 export default function BookDetails() {
@@ -66,60 +68,66 @@ export default function BookDetails() {
 
   return (
     <div>
-      <div className="container mx-auto px-16 mt-10">
-        <div className="grid place-items-center">
-          <div className="rounded-md shadow-lg bg-gray-200">
-            <div className="md:flex px-4 leading-none w-full">
-              <div className="flex-none ">
+      <div className="max-w-screen-xl mx-auto relative">
+        <div className="sm:flex items-start">
+          <div className="md:w-full sm:w-6/12 p-8">
+            <div className="border-b mb-5 flex justify-between text-sm">
+              <div className="text-indigo-600 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
+                <span className="font-semibold inline-block">Book Details</span>
+              </div>
+            </div>
+            <div className="mb-5 pb-5 w-full lg:flex justify-center items-center border-b">
+              <div className="h-56 lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden">
                 <img
                   src={bookDetails?.photoUrl}
-                  alt="pic"
-                  className="h-72 w-56 rounded-md transform -translate-y-4 border-4 border-gray-300 shadow-lg"
+                  alt="bookpic"
+                  className="h-56 lg:w-48"
                 />
               </div>
 
-              <div className="flex-col">
-                <p className="pt-4 px-20 text-4xl font-bold">
-                  {bookDetails?.title}
-                </p>
-                <hr className="hr-text" data-content="" />
-                <div className="text-md flex justify-between px-10 my-2">
-                  <span className="font-bold text-2xl">
-                    Genre: {bookDetails?.genre}
-                  </span>
-                  <span className="font-bold"></span>
-                </div>
-                <div className="flex justify-between px-10 my-4 text-base font-semibold text-left">
-                  <div>Author: {bookDetails?.author}</div>
-                  <div className="ml-10">
-                    Publication Date: {bookDetails?.publicationDate.toString()}
+              <div className="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+                <div className="">
+                  <div className="text-4xl text-indigo-600 uppercase font-medium mb-3 flex items-center hover:text-gray-900 transition duration-500 ease-in-out">
+                    {bookDetails?.title}
                   </div>
-                </div>
+                  <div className="text-gray-900 font-bold text-md sm:text-xl mb-2 hover:text-indigo-600 transition duration-500 ease-in-out">
+                    Genre: {bookDetails?.genre}
+                  </div>
+                  <div className="text-gray-700 text-xs sm:text-base mt-2">
+                    <div className="flex justify-between my-4 text-base font-semibold text-left">
+                      <div>Author: {bookDetails?.author}</div>
+                      <div className="ml-20">
+                        Publication Date:{" "}
+                        {bookDetails?.publicationDate.toString()}
+                      </div>
+                    </div>
+                    <p className="flex text-base font-semibold my-2">
+                      Reviews: {bookDetails?.reviews}
+                    </p>
+                  </div>
+                  <div className="text-base px-10 flex justify-end">
+                    <Link to={`/edit-book/${bookDetails?._id}`}>
+                      <button
+                        type="button"
+                        className="border border-green-400 text-black font-semibold rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-900 hover:text-white focus:outline-none focus:shadow-outline"
+                      >
+                        EDIT
+                      </button>
+                    </Link>
 
-                <p className="flex text-base font-semibold px-10 my-2">
-                  Reviews: {bookDetails?.reviews}/05
-                </p>
-
-                <div className="text-base px-10 flex justify-end">
-                  <Link to={`/edit-book/${bookDetails?._id}`}>
                     <button
+                      onClick={handleDelete}
                       type="button"
-                      className="border border-green-400 text-black font-semibold rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-900 hover:text-white focus:outline-none focus:shadow-outline"
+                      className="border border-red-400 text-black font-semibold rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-900 hover:text-white focus:outline-none focus:shadow-outline"
                     >
-                      EDIT
+                      DELETE
                     </button>
-                  </Link>
-
-                  <button
-                    onClick={handleDelete}
-                    type="button"
-                    className="border border-red-400 text-black font-semibold rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-900 hover:text-white focus:outline-none focus:shadow-outline"
-                  >
-                    DELETE
-                  </button>
+                  </div>
                 </div>
               </div>
             </div>
+            <AddReview></AddReview>
+            <ReviewDisplay></ReviewDisplay>
           </div>
         </div>
       </div>
