@@ -49,6 +49,7 @@ const bookApi = api.injectEndpoints({
 
     postReview: builder.mutation({
       query: ({ id, data }) => {
+        console.log("from bookapi:", data);
         return {
           url: `/review/${id}`,
           method: "POST",
@@ -62,6 +63,18 @@ const bookApi = api.injectEndpoints({
       query: (id) => ({ url: `/review/${id}` }),
       providesTags: ["reviews"],
     }),
+
+    updateWishlist: builder.mutation({
+      query: ({ id, data }) => {
+        console.log("from bookapi:", data);
+        return {
+          url: `/wishlist/${id}`,
+          method: "PUT",
+          body: data,
+        };
+      },
+      invalidatesTags: ["wishlist"],
+    }),
   }),
 });
 
@@ -73,4 +86,5 @@ export const {
   useDeleteBookMutation,
   usePostReviewMutation,
   useGetReviewQuery,
+  useUpdateWishlistMutation,
 } = bookApi;

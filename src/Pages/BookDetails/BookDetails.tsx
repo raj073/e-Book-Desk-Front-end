@@ -11,6 +11,7 @@ import ReviewDisplay from "../../Components/ReviewDisplay/ReviewDisplay";
 import {
   useDeleteBookMutation,
   useGetSingleBookQuery,
+  useUpdateWishlistMutation,
 } from "../../Redux/Features/Books/bookApi";
 import { useAppSelector } from "../../Redux/Hooks";
 import AddReview from "../AddReview/AddReview";
@@ -22,6 +23,10 @@ export default function BookDetails() {
   const { data: bookDetails, isLoading, error } = useGetSingleBookQuery(id);
 
   const [deleteBook] = useDeleteBookMutation();
+
+  const [updateWishlist] = useUpdateWishlistMutation();
+  const isWishlist = bookDetails?.bookStatus === "wishlist";
+  const isButtonDisabled = isWishlist ? true : false;
 
   const navigate = useNavigate();
 
@@ -66,6 +71,38 @@ export default function BookDetails() {
     }
   };
 
+  const handleUpdateWishlist = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+
+    const wishlistData = {
+      bookStatus: "wishlist",
+    };
+
+    const options = {
+      id: id,
+      data: wishlistData,
+    };
+
+    console.log(options);
+
+    try {
+      if (bookDetails?.bookStatus !== "wishlist") {
+        updateWishlist(options);
+        toast.success(`Book Marked as Wishlist Successfully!`, {
+          position: "top-right",
+        });
+      } else {
+        toast.success(`Book Marked as Wishlist Successfully!`, {
+          position: "top-right",
+        });
+      }
+    } catch (error) {
+      toast.error("An Error Occurred While Marking the Book as Wishlist", {
+        position: "top-right",
+      });
+    }
+  };
+
   return (
     <div>
       <div className="max-w-screen-xl mx-auto relative">
@@ -81,14 +118,30 @@ export default function BookDetails() {
                 <img
                   src={bookDetails?.photoUrl}
                   alt="bookpic"
-                  className="h-56 lg:w-48"
+                  className="h-56 lg:w-48 bg-cover"
                 />
               </div>
 
               <div className="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-                <div className="">
-                  <div className="text-4xl text-indigo-600 uppercase font-medium mb-3 flex items-center hover:text-gray-900 transition duration-500 ease-in-out">
-                    {bookDetails?.title}
+                <div>
+                  <div className="flex justify-between">
+                    <div className="text-4xl text-indigo-600 uppercase font-medium mb-3 flex items-center hover:text-gray-900 transition duration-500 ease-in-out">
+                      {bookDetails?.title}
+                    </div>
+                    <div className="ml-4">
+                      <button
+                        onClick={handleUpdateWishlist}
+                        disabled={isButtonDisabled}
+                        className="relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-tr-md rounded-bl-md"
+                      >
+                        <span className="w-full h-full bg-gradient-to-br from-[#ff8a05] via-[#ff5478] to-[#ff00c6] group-hover:from-[#ff00c6] group-hover:via-[#ff5478] group-hover:to-[#ff8a05] absolute"></span>
+                        <span className="relative px-6 py-3 transition-all ease-out bg-gray-900 rounded-md group-hover:bg-opacity-0 duration-400">
+                          <span className="relative text-white">
+                            Add To Wishlist Book
+                          </span>
+                        </span>
+                      </button>
+                    </div>
                   </div>
                   <div className="text-gray-900 font-bold text-md sm:text-xl mb-2 hover:text-indigo-600 transition duration-500 ease-in-out">
                     Genre: {bookDetails?.genre}
@@ -109,7 +162,8 @@ export default function BookDetails() {
                     <Link to={`/edit-book/${bookDetails?._id}`}>
                       <button
                         type="button"
-                        className="border border-green-400 text-black font-semibold rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-900 hover:text-white focus:outline-none focus:shadow-outline"
+                        className="border border-green-400 bg-green-600 text-white font-semibold 
+                        rounded-tl-md rounded-br-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-900 hover:text-white focus:outline-none focus:shadow-outline"
                       >
                         EDIT
                       </button>
@@ -118,7 +172,8 @@ export default function BookDetails() {
                     <button
                       onClick={handleDelete}
                       type="button"
-                      className="border border-red-400 text-black font-semibold rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-900 hover:text-white focus:outline-none focus:shadow-outline"
+                      className="border border-red-400 bg-red-400 text-black font-semibold 
+                      rounded-tr-md rounded-bl-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-900 hover:text-white focus:outline-none focus:shadow-outline"
                     >
                       DELETE
                     </button>

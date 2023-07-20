@@ -20,6 +20,7 @@ export default function AddReview() {
       review: formData.get("review"),
       reviewedBy: user.email,
     };
+    console.log("reviewData:", reviewData);
 
     const options = {
       id: id,
@@ -34,11 +35,11 @@ export default function AddReview() {
     <div className="flex justify-center rounded-lg shadow-lg shadow-blue-600/50 mt-10">
       <form onSubmit={handleSubmit} className="w-full p-4">
         <div className="mb-2">
-          <label htmlFor="review" className="text-lg text-gray-600">
+          <label htmlFor="review" className="text-lg font-semibold">
             Add a Review
           </label>
           <textarea
-            className="w-full h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1 min-h-[70px] max-h-[200px]"
+            className="w-full mt-4 h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1 min-h-[70px] max-h-[200px]"
             name="review"
             placeholder="Add a Review"
             id="review"
