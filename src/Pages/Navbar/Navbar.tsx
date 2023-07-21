@@ -83,13 +83,13 @@ export default function Navbar() {
                 <Link to={`/`}>Home</Link>
               </li>
               <li className="text-white hover:text-indigo-200 text-lg">
-                <Link to={`/`}>All Books</Link>
-              </li>
-              <li className="text-white hover:text-indigo-200 text-lg">
                 <Link to={`/addnewbook`}>Add New Book</Link>
               </li>
               <li className="text-white hover:text-indigo-200 text-lg">
                 <Link to={`/wishlist`}>Wishlist</Link>
+              </li>
+              <li className="text-white hover:text-indigo-200 text-lg">
+                <Link to={`/bookstatuslist`}>List</Link>
               </li>
             </ul>
 

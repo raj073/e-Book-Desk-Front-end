@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useGetWishlistQuery } from "../../Redux/Features/Books/bookApi";
 import { useAppSelector } from "../../Redux/Hooks";
 import { IBook } from "../Types/globalTypes";
@@ -16,7 +16,7 @@ export default function Wishlist() {
     error,
   } = useGetWishlistQuery(undefined);
 
-  console.log(wishlistBook?.wishlistBook);
+  console.log(wishlistBook?.data);
 
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ export default function Wishlist() {
               </div>
             </div>
 
-            {wishlistBook?.wishlistBook?.map((book: IBook) => (
+            {wishlistBook?.data?.map((book: IBook) => (
               <WishlistCard key={book._id} book={book} />
             ))}
           </div>

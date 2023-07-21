@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../../App";
 import AddNewBook from "../../Pages/AddNewBook/AddNewBook";
 import BookDetails from "../../Pages/BookDetails/BookDetails";
+import BookStatusList from "../../Pages/BookStatusList/BookStatusList";
 import EditBook from "../../Pages/EditBook/EditBook";
 import Home from "../../Pages/Home/Home";
 import Login from "../../Pages/Login/Login";
@@ -41,6 +42,10 @@ const routes = createBrowserRouter([
       {
         path: "/wishlist/",
         element: <Wishlist></Wishlist>,
+      },
+      {
+        path: "/bookstatuslist",
+        element: <BookStatusList></BookStatusList>,
       },
     ],
   },

@@ -9,6 +9,7 @@ export interface IBook {
   reviews?: string[];
   createdBy: string;
   bookStatus: string;
+  isFinishedReading: boolean;
 }
 
 export interface bookCardProps {

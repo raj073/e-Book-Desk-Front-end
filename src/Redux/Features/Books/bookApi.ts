@@ -66,7 +66,6 @@ const bookApi = api.injectEndpoints({
 
     updateWishlist: builder.mutation({
       query: ({ id, data }) => {
-        console.log("from bookapi:", data);
         return {
           url: `/wishlist/${id}`,
           method: "PUT",
@@ -79,6 +78,34 @@ const bookApi = api.injectEndpoints({
     getWishlist: builder.query({
       query: () => ({ url: `/wishlist` }),
       providesTags: ["wishlist"],
+    }),
+
+    updateCurrentlyReading: builder.mutation({
+      query: ({ id, data }) => {
+        return {
+          url: `/reading/${id}`,
+          method: "PUT",
+          body: data,
+        };
+      },
+      invalidatesTags: ["updatedBook"],
+    }),
+
+    updatePlanToReadSoon: builder.mutation({
+      query: ({ id, data }) => {
+        console.log("from bookapi update currently reading mutation:", data);
+        return {
+          url: `/plantoreadsoon/${id}`,
+          method: "PUT",
+          body: data,
+        };
+      },
+      invalidatesTags: ["updatedBook"],
+    }),
+
+    getBookStatus: builder.query({
+      query: () => ({ url: `/bookstatus` }),
+      providesTags: ["bookStatus"],
     }),
   }),
 });
@@ -93,4 +120,7 @@ export const {
   useGetReviewQuery,
   useUpdateWishlistMutation,
   useGetWishlistQuery,
+  useUpdateCurrentlyReadingMutation,
+  useGetBookStatusQuery,
+  useUpdatePlanToReadSoonMutation,
 } = bookApi;

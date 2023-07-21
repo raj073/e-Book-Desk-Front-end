@@ -25,7 +25,7 @@ export default function BookDetails() {
   const [deleteBook] = useDeleteBookMutation();
 
   const [updateWishlist] = useUpdateWishlistMutation();
-  const isWishlist = bookDetails?.bookStatus === "wishlist";
+  const isWishlist = bookDetails?.bookStatus === "Wishlist";
   const isButtonDisabled = isWishlist ? true : false;
 
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ export default function BookDetails() {
     event.preventDefault();
 
     const wishlistData = {
-      bookStatus: "wishlist",
+      bookStatus: "Wishlist",
     };
 
     const options = {
@@ -156,9 +156,18 @@ export default function BookDetails() {
                         {bookDetails?.publicationDate.toString()}
                       </div>
                     </div>
-                    <p className="flex text-base font-semibold my-2">
-                      Reviews: {bookDetails?.reviews}
-                    </p>
+                    <div className="flex justify-between">
+                      <div>
+                        <p className="flex text-base font-semibold my-2">
+                          Reviews: {bookDetails?.reviews}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="flex text-base font-semibold my-2">
+                          Current Book Status: {bookDetails?.bookStatus}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                   <div className="text-base px-10 flex justify-end">
                     <Link to={`/edit-book/${bookDetails?._id}`}>
