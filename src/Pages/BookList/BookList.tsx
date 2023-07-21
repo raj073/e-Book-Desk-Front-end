@@ -5,6 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import Loader from "../../Components/Loader/Loader";
 import { useGetBookQuery } from "../../Redux/Features/Books/bookApi";
 import Book from "../Book/Book";
 import { IBook } from "../Types/globalTypes";
@@ -17,7 +18,7 @@ export default function BookList({ books }: IProps) {
   const { data, isLoading, isError } = useGetBookQuery(undefined);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader></Loader>;
   }
 
   if (isError) {

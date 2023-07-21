@@ -1,17 +1,4 @@
-import { useState } from "react";
-
-type OnSearchCallback = (text: string) => void;
-
-export default function SearchInput({
-  onSearch,
-}: {
-  onSearch: OnSearchCallback;
-}) {
-  //   const [searchText, setSearchText] = useState("");
-
-  //   const handleSearch = () => {
-  //     onSearch(searchText);
-  //   };
+export default function SearchInput() {
   return (
     <div className="container flex justify-center mx-auto mt-10">
       <form className="flex flex-col max-w-[580px] w-full items-center md:flex-row gap-3">

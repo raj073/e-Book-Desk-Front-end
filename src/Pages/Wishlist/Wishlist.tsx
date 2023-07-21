@@ -3,7 +3,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Loader from "../../Components/Loader/Loader";
 import { useGetWishlistQuery } from "../../Redux/Features/Books/bookApi";
 import { useAppSelector } from "../../Redux/Hooks";
 import { IBook } from "../Types/globalTypes";
@@ -16,14 +17,12 @@ export default function Wishlist() {
     error,
   } = useGetWishlistQuery(undefined);
 
-  console.log(wishlistBook?.data);
-
-  const navigate = useNavigate();
+  console.log(wishlistBook?.data.length);
 
   const { user } = useAppSelector((state) => state.user);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader></Loader>;
   }
 
   if (error) {
@@ -42,9 +41,28 @@ export default function Wishlist() {
               </div>
             </div>
 
-            {wishlistBook?.data?.map((book: IBook) => (
-              <WishlistCard key={book._id} book={book} />
-            ))}
+            {wishlistBook.data.length === 0 ? (
+              <div className="flex items-center justify-center mt-10">
+                <h1 className="text-3xl font-semibold text-teal-700">
+                  There is no Book in Wishlist. Back to
+                  <Link to={"/"} className="ml-4">
+                    <button
+                      type="button"
+                      className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    >
+                      Home Page
+                    </button>
+                  </Link>
+                  and Add Books
+                </h1>
+              </div>
+            ) : (
+              <div>
+                {wishlistBook?.data?.map((book: IBook) => (
+                  <WishlistCard key={book._id} book={book} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

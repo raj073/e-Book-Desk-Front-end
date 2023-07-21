@@ -7,6 +7,7 @@
 
 import toast from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Loader from "../../Components/Loader/Loader";
 import ReviewDisplay from "../../Components/ReviewDisplay/ReviewDisplay";
 import {
   useDeleteBookMutation,
@@ -21,6 +22,7 @@ export default function BookDetails() {
   const { id } = useParams();
 
   const { data: bookDetails, isLoading, error } = useGetSingleBookQuery(id);
+  console.log(bookDetails?.createdBy);
 
   const [deleteBook] = useDeleteBookMutation();
 
@@ -33,7 +35,7 @@ export default function BookDetails() {
   const { user } = useAppSelector((state) => state.user);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader></Loader>;
   }
 
   if (error) {
@@ -83,10 +85,12 @@ export default function BookDetails() {
       data: wishlistData,
     };
 
-    console.log(options);
-
     try {
-      if (bookDetails?.bookStatus !== "wishlist") {
+      if (bookDetails.isFinishedReading === true) {
+        toast.success(`The Book has already been Successfully Read Once`, {
+          position: "top-right",
+        });
+      } else if (bookDetails?.bookStatus !== "wishlist") {
         updateWishlist(options);
         toast.success(`Book Marked as Wishlist Successfully!`, {
           position: "top-right",

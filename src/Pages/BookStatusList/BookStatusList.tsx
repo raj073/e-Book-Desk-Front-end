@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import toast from "react-hot-toast";
+import Loader from "../../Components/Loader/Loader";
 import {
   useGetBookStatusQuery,
   useUpdateIsFinishedReadingMutation,
@@ -62,7 +63,7 @@ export default function BookStatusList() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader></Loader>;
   }
 
   if (isError) {

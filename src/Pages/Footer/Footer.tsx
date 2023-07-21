@@ -1,32 +1,9 @@
-import { useEffect, useState } from "react";
 import { BsTwitter } from "react-icons/bs";
 import { FaFacebookF, FaGithub } from "react-icons/fa";
 
 export default function Footer() {
-  const [isFixed, setIsFixed] = useState(true);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const contentHeight = document.body.scrollHeight;
-      const viewportHeight = window.innerHeight;
-      setIsFixed(contentHeight <= viewportHeight);
-    };
-
-    // Attach the scroll and resize event listeners
-    window.addEventListener("scroll", handleResize);
-    window.addEventListener("resize", handleResize);
-
-    // Call the handleResize initially to set the initial state
-    handleResize();
-
-    // Remove the event listeners when the component is unmounted
-    return () => {
-      window.removeEventListener("scroll", handleResize);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   return (
-    <footer className={`relative w-full bg-black pt-8 pb-6 mt-32`}>
+    <footer className={`relative w-full bg-black pt-8 pb-6 mt-48`}>
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap text-left lg:text-left">
           <div className="w-full lg:w-6/12 px-4">
