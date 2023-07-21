@@ -92,7 +92,7 @@ export default function BookDetails() {
           position: "top-right",
         });
       } else {
-        toast.success(`Book Marked as Wishlist Successfully!`, {
+        toast.success(`The Book is already Marked as Wishlist`, {
           position: "top-right",
         });
       }
@@ -110,7 +110,9 @@ export default function BookDetails() {
           <div className="md:w-full sm:w-6/12 p-8">
             <div className="border-b mb-5 flex justify-between text-sm">
               <div className="text-indigo-600 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
-                <span className="font-semibold inline-block">Book Details</span>
+                <span className="font-semibold text-2xl inline-block">
+                  Book Details
+                </span>
               </div>
             </div>
             <div className="mb-5 pb-5 w-full lg:flex justify-center items-center border-b">

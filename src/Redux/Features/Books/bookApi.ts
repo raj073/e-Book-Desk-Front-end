@@ -75,6 +75,11 @@ const bookApi = api.injectEndpoints({
       },
       invalidatesTags: ["wishlist"],
     }),
+
+    getWishlist: builder.query({
+      query: () => ({ url: `/wishlist` }),
+      providesTags: ["wishlist"],
+    }),
   }),
 });
 
@@ -87,4 +92,5 @@ export const {
   usePostReviewMutation,
   useGetReviewQuery,
   useUpdateWishlistMutation,
+  useGetWishlistQuery,
 } = bookApi;

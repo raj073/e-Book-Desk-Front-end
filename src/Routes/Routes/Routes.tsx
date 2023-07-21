@@ -7,6 +7,7 @@ import Home from "../../Pages/Home/Home";
 import Login from "../../Pages/Login/Login";
 import NotFound from "../../Pages/NotFound/NotFound";
 import Signup from "../../Pages/Signup/Signup";
+import Wishlist from "../../Pages/Wishlist/Wishlist";
 
 const routes = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const routes = createBrowserRouter([
       {
         path: "/edit-book/:id",
         element: <EditBook></EditBook>,
+      },
+      {
+        path: "/wishlist/",
+        element: <Wishlist></Wishlist>,
       },
     ],
   },

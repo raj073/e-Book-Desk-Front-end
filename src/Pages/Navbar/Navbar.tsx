@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { signOut } from "firebase/auth";
@@ -88,7 +89,7 @@ export default function Navbar() {
                 <Link to={`/addnewbook`}>Add New Book</Link>
               </li>
               <li className="text-white hover:text-indigo-200 text-lg">
-                <a href="javascript:void(0)">Contact US</a>
+                <Link to={`/wishlist`}>Wishlist</Link>
               </li>
             </ul>
 

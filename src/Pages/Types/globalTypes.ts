@@ -8,6 +8,7 @@ export interface IBook {
   publicationDate: Date;
   reviews?: string[];
   createdBy: string;
+  bookStatus: string;
 }
 
 export interface bookCardProps {
