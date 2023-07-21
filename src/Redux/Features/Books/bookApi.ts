@@ -93,7 +93,6 @@ const bookApi = api.injectEndpoints({
 
     updatePlanToReadSoon: builder.mutation({
       query: ({ id, data }) => {
-        console.log("from bookapi update currently reading mutation:", data);
         return {
           url: `/plantoreadsoon/${id}`,
           method: "PUT",
@@ -101,6 +100,18 @@ const bookApi = api.injectEndpoints({
         };
       },
       invalidatesTags: ["updatedBook"],
+    }),
+
+    updateIsFinishedReading: builder.mutation({
+      query: ({ id, data }) => {
+        console.log("from bookapi update currently reading mutation:", data);
+        return {
+          url: `/finished-reading/${id}`,
+          method: "PUT",
+          body: data,
+        };
+      },
+      invalidatesTags: ["bookStatus"],
     }),
 
     getBookStatus: builder.query({
@@ -123,4 +134,5 @@ export const {
   useUpdateCurrentlyReadingMutation,
   useGetBookStatusQuery,
   useUpdatePlanToReadSoonMutation,
+  useUpdateIsFinishedReadingMutation,
 } = bookApi;

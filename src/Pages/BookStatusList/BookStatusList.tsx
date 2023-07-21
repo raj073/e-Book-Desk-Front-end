@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useGetBookStatusQuery } from "../../Redux/Features/Books/bookApi";
+import toast from "react-hot-toast";
+import {
+  useGetBookStatusQuery,
+  useUpdateIsFinishedReadingMutation,
+} from "../../Redux/Features/Books/bookApi";
 import { IBook } from "../Types/globalTypes";
 
 export default function BookStatusList() {
@@ -15,7 +20,46 @@ export default function BookStatusList() {
     pollingInterval: 1000,
   });
 
-  console.log(books?.data);
+  const [UpdateIsFinishedReading] = useUpdateIsFinishedReadingMutation();
+
+  const isFinishedReading = books?.isFinishedReading === true;
+  console.log("isFinishedReading", isFinishedReading);
+  const isButtonDisabledFinishedReading = isFinishedReading ? true : false;
+  console.log(
+    "isButtonDisabledFinishedReading",
+    isButtonDisabledFinishedReading
+  );
+
+  const handleUpdateIsFinishedReading = (bookId: string) => {
+    const isFinishedReadingData = {
+      isFinishedReading: true,
+    };
+
+    const options = {
+      id: bookId,
+      data: isFinishedReadingData,
+    };
+
+    try {
+      if (books?.isFinishedReading !== true) {
+        UpdateIsFinishedReading(options);
+        toast.success(`Book Marked as Finished Reading Successfully!`, {
+          position: "top-right",
+        });
+      } else {
+        toast.success(`The Book is already Marked as Finished Reading`, {
+          position: "top-right",
+        });
+      }
+    } catch (error) {
+      toast.error(
+        "An Error Occurred While Marking the Book as Finished Reading",
+        {
+          position: "top-right",
+        }
+      );
+    }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -67,7 +111,7 @@ export default function BookStatusList() {
                   </thead>
                   <tbody className="text-md divide-y divide-gray-100">
                     {books?.data?.map((book: IBook) => (
-                      <tr>
+                      <tr key={book._id}>
                         <td className="p-2 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="flex-shrink-0 mr-2 sm:mr-3">
@@ -92,12 +136,18 @@ export default function BookStatusList() {
                         </td>
                         <td className="p-2 whitespace-nowrap">
                           <div className="text-lg text-left">
-                            {book?.bookStatus}
+                            {book?.isFinishedReading === true
+                              ? "Finished Reading"
+                              : book?.bookStatus}
                           </div>
                         </td>
                         <td className="p-2 whitespace-nowrap">
                           <div className="text-lg text-center">
                             <button
+                              onClick={() =>
+                                handleUpdateIsFinishedReading(book._id)
+                              }
+                              disabled={book.isFinishedReading === true}
                               type="button"
                               className="border border-teal-600 bg-teal-700 text-white font-semibold rounded-tr-md rounded-bl-md px-3 py-1 m-2 text-sm transition duration-500 ease select-none hover:bg-teal-900 hover:text-white focus:outline-none focus:shadow-outline"
                             >
