@@ -20,6 +20,7 @@ export default function Wishlist() {
   console.log(wishlistBook?.data.length);
 
   const { user } = useAppSelector((state) => state.user);
+  console.log(user);
 
   if (isLoading) {
     return <Loader></Loader>;

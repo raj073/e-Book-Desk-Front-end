@@ -26,6 +26,7 @@ export default function Login({ className, ...props }: UserAuthFormProps) {
   const { user, isLoading } = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
+  console.log(props);
 
   const navigate = useNavigate();
 

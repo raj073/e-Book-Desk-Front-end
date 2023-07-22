@@ -24,6 +24,7 @@ export default function Signup({ className, ...props }: UserAuthFormProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>(null);
+  console.log(props);
 
   const handleSignUp = (data: SignUpFormInputs) => {
     console.log(data);

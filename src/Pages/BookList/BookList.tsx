@@ -10,11 +10,7 @@ import { useGetBookQuery } from "../../Redux/Features/Books/bookApi";
 import Book from "../Book/Book";
 import { IBook } from "../Types/globalTypes";
 
-interface IProps {
-  books: IBook;
-}
-
-export default function BookList({ books }: IProps) {
+export default function BookList() {
   const { data, isLoading, isError } = useGetBookQuery(undefined);
 
   if (isLoading) {
