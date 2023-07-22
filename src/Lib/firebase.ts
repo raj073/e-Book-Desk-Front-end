@@ -12,6 +12,13 @@ const firebaseConfig = {
   storageBucket: "e-book-desk.appspot.com",
   messagingSenderId: "418404278224",
   appId: "1:418404278224:web:54631d4f80aa729bc6e3d5",
+
+  // apiKey: process.env.REACT_APP_apiKey,
+  // authDomain: process.env.REACT_APP_authDomain,
+  // projectId: process.env.REACT_APP_projectId,
+  // storageBucket: process.env.REACT_APP_storageBucket,
+  // messagingSenderId: process.env.REACT_APP_messagingSenderId,
+  // appId: process.env.REACT_APP_appId,
 };
 
 // Initialize Firebase

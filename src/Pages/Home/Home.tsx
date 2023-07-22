@@ -20,11 +20,27 @@ export default function Home() {
   const dispatch = useDispatch();
   const searchQuery = useAppSelector((state) => state.book.searchQuery);
 
+  const isDateMatch = (date: Date | string, query: string) => {
+    const dateString =
+      typeof date === "string" ? date : date.toISOString().split("T")[0];
+
+    // Convert the date string to lowercase for case-insensitive comparison
+    const lowerCaseDate = dateString.toLowerCase();
+
+    // Convert the query to lowercase for case-insensitive comparison
+    const lowerCaseQuery = query.toLowerCase();
+
+    // Check if the formatted date string includes the search query
+    return lowerCaseDate.includes(lowerCaseQuery);
+  };
+  //console.log(isDateMatch(books.publicationDate, searchQuery.toLowerCase()));
+
   const filteredBooks = books?.data?.filter(
     (book: IBook) =>
       book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      book.genre.toLowerCase().includes(searchQuery.toLowerCase())
+      book.genre.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      isDateMatch(book.publicationDate, searchQuery.toLowerCase())
   );
 
   const handleSearch = (query: string) => {

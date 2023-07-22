@@ -56,6 +56,7 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<string | null>) => {
       state.user.email = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;

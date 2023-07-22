@@ -19,11 +19,11 @@ export default function Book({ book }: IProps) {
         <div className="w-full flex flex-col">
           <div className="p-4 pb-0 flex-1">
             <h3 className="mb-1 text-xl text-grey-darkest">{title}</h3>
-            <div className="text-lg flex items-center mb-4">
+            <div className="text-lg flex items-center mb-2">
               <span>Genre: </span>
               &nbsp;{genre}
             </div>
-            <div className="text-lg mb-2">
+            <div className="text-lg">
               <div>
                 <span>Author: </span>
                 &nbsp;{author}
@@ -33,9 +33,17 @@ export default function Book({ book }: IProps) {
                 &nbsp;<span>{publicationDate.toString()}</span>
               </div>
             </div>
-            <div className="flex items-center mt-4">
-              <div className="pr-2 text-xs"></div>
-              <div className="px-2 text-xs"></div>
+            <div className="flex justify-end items-center mb-2">
+              <div className="text-xs">
+                <Link to={`/addnewbook`}>
+                  <button
+                    type="button"
+                    className="border border-teal-600 bg-teal-700 text-white font-semibold rounded-tr-md rounded-bl-md px-3 py-1 m-2 text-sm transition duration-500 ease select-none hover:bg-teal-900 hover:text-white focus:outline-none focus:shadow-outline"
+                  >
+                    Add New Book
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
           <Link to={`/book-details/${_id}`}>

@@ -6,16 +6,21 @@ import { usePostBookMutation } from "../../Redux/Features/Books/bookApi";
 import toast from "react-hot-toast";
 import logo from "../../assets/logo.png";
 import { useAppSelector } from "../../Redux/Hooks";
+import Loader from "../../Components/Loader/Loader";
 
 export default function AddNewBook() {
-  const [postBook, { isLoading, isError, isSuccess }] = usePostBookMutation();
+  const [postBook, { isLoading, isError }] = usePostBookMutation();
   const { user } = useAppSelector((state) => state.user);
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  console.log(isLoading);
-  console.log(isError);
-  console.log(isSuccess);
+  if (isLoading) {
+    return <Loader></Loader>;
+  }
+
+  if (isError) {
+    return <div>Error Fetching Load Add New Book</div>;
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
