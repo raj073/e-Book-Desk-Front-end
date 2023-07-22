@@ -5,14 +5,31 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { useDispatch } from "react-redux";
 import Loader from "../../Components/Loader/Loader";
 import SearchInput from "../../Components/SearchInput/SearchInput";
 import { useGetBookQuery } from "../../Redux/Features/Books/bookApi";
+import { setSearchQuery } from "../../Redux/Features/Books/bookSlice";
+import { useAppSelector } from "../../Redux/Hooks";
 import Book from "../Book/Book";
 import { IBook } from "../Types/globalTypes";
 
 export default function Home() {
   const { data: books, isLoading, isError } = useGetBookQuery(undefined);
+
+  const dispatch = useDispatch();
+  const searchQuery = useAppSelector((state) => state.book.searchQuery);
+
+  const filteredBooks = books?.data?.filter(
+    (book: IBook) =>
+      book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.genre.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleSearch = (query: string) => {
+    dispatch(setSearchQuery(query));
+  };
 
   if (isLoading) {
     return <Loader></Loader>;
@@ -24,14 +41,22 @@ export default function Home() {
 
   return (
     <div>
-      <SearchInput></SearchInput>
+      <SearchInput onSearch={handleSearch}></SearchInput>
 
       {/* <BookList books={searchText ? filteredBooks : data.data} /> */}
       <div className="container mx-auto px-16 mt-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 max-w-sm md:max-w-none">
-          {books?.data?.map((book: IBook) => (
+          {/* {books?.data?.map((book: IBook) => (
             <Book key={book._id} book={book} />
-          ))}
+          ))} */}
+
+          {searchQuery
+            ? filteredBooks?.map((book: IBook) => (
+                <Book key={book._id} book={book} />
+              ))
+            : books?.data?.map((book: IBook) => (
+                <Book key={book._id} book={book} />
+              ))}
         </div>
       </div>
     </div>
